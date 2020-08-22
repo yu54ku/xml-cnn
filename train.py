@@ -23,8 +23,9 @@ def convert_params(params, length):
     params["stride"] = [params["stride_" + str(i)] for i in indexes]
     [params.pop("stride_" + str(i)) for i in indexes]
 
+    filter_channels = params["filter_channels"]
     args_list = zip(filter_sizes, params["stride"])
-    out_sizes = [out_size(length, i, stride=j) for i, j in args_list]
+    out_sizes = [out_size(length, i, filter_channels, stride=j) for i, j in args_list]
     d_max_list = []
     for i, j in enumerate(out_sizes):
         n_list = [k for k in range(1, j + 1) if j % k < 1]

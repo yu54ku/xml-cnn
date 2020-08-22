@@ -46,10 +46,10 @@ def get_hyper_params(trial, length):
     enumerate_f = enumerate(filter_sizes)
     stride = [suggest_int("stride_" + str(i), 1, j) for i, j in enumerate_f]
 
-    # Dynamic Max-Poolingのパラメータ(n)を割り切れる数字に変換
+    # Dynamic Max-Poolingのパラメータ(p)を割り切れる数字に変換
     # Optunaの仕様上，線形，logの増加率を持つパラメータしか設定できないため
     args_list = zip(filter_sizes, stride)
-    out_sizes = [out_size(length, i, stride=j) for i, j in args_list]
+    out_sizes = [out_size(length, i, filter_channels, stride=j) for i, j in args_list]
     d_max_list = []
     for i, j in enumerate(out_sizes):
         n_list = [k for k in range(1, j + 1) if j % k < 1]

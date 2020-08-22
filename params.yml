@@ -3,14 +3,14 @@ normal_train:
     valid_data_path: data/valid.txt
     test_data_path: data/test.txt
     epochs: 50
-    early_stopping: 10 # == 0 or False: Disable, > 0: Trigger
+    early_stopping: 5 # == 0 or False: Disable, > 0: Trigger
 
 params_search:
     train_data_path: data/train4search.txt
     valid_data_path: data/valid4search.txt
     epochs: 50
     trials: 200
-    early_stopping: 10 # == 0 or False: Disable, > 0: Trigger
+    early_stopping: 5 # == 0 or False: Disable, > 0: Trigger
 
 common:
     batch_size: 64
@@ -19,7 +19,7 @@ common:
     sequence_length: 500
 
 hyper_params:
-    d_max_pool_p: [120, 128, 128]
+    d_max_pool_p: [125, 128, 128]
     filter_channels: 128
     filter_sizes: [2, 4, 8]
     hidden_dims: 512

@@ -30,29 +30,24 @@ class xml_cnn(nn.Module):
         self.dropout_0 = nn.Dropout(0.5)
         self.dropout_1 = nn.Dropout(0.5)
 
-        # self.batch_norm_0 = nn.BatchNorm2d(1)
-
         for fsz, n, ssz in zip(self.filter_sizes, d_max_pool_p, stride):
             conv_n = nn.Conv2d(
                 1, filter_channels, (fsz, emb_dim), stride=(ssz, emb_dim)
             )
             torch.nn.init.kaiming_normal_(conv_n.weight)
 
-            conv_out_size = out_size(sequence_length, fsz, stride=ssz)
-            pool_k_size = conv_out_size // n
-            assert conv_out_size / n != 0
-
             # Dynamic Max-Pooling
+            conv_out_size = out_size(sequence_length, fsz, filter_channels, stride=ssz)
+            assert conv_out_size % n == 0
+            pool_k_size = conv_out_size // n
             pool_n = nn.MaxPool1d(pool_k_size, stride=pool_k_size)
 
-            pool_out_size = n
-            fin_l_out_size += pool_out_size
+            fin_l_out_size += n
 
             self.conv_layers.append(conv_n)
             self.pool_layers.append(pool_n)
 
         self.l1 = nn.Linear(fin_l_out_size, params["hidden_dims"])
-        # self.batch_norm_2 = nn.BatchNorm1d(hidden_dims)
         self.l2 = nn.Linear(hidden_dims, params["num_of_class"])
 
         # Heの初期値でWeightsを初期化
@@ -65,7 +60,6 @@ class xml_cnn(nn.Module):
         h_non_static = h_non_static.reshape(
             h_non_static.shape[0], 1, h_non_static.shape[1], h_non_static.shape[2]
         )
-        # h_non_static = self.batch_norm_0(h_non_static)
         h_non_static = self.dropout_0(h_non_static)
 
         h_list = []
@@ -85,11 +79,9 @@ class xml_cnn(nn.Module):
         else:
             h = h_list[0]
 
-        # Full Connected層
+        # Full Connected
         h = F.relu(self.l1(h))
-
         h = self.dropout_1(h)
-        # h = self.batch_norm_2(h)
 
         # Output層
         y = self.l2(h)

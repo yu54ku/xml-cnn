@@ -41,10 +41,10 @@ def print_num_on_tqdm(loader, num, measure=None, last=False):
 
 
 # 畳み込み後のTensorのサイズを計算
-def out_size(l_in, kernel_size, padding=0, dilation=1, stride=1):
+def out_size(l_in, kernel_size, channels, padding=0, dilation=1, stride=1):
     a = l_in + 2 * padding - dilation * (kernel_size - 1) - 1
     b = int(a / stride)
-    return (b + 1)*128
+    return (b + 1)*channels
 
 
 def precision_k(true_mat, score_mat, k):
