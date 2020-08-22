@@ -1,3 +1,21 @@
+# dataset_and_word_embedding
+data/train_org.txt
+data/train.txt
+data/valid.txt
+data/test.txt
+data/train4search.txt
+data/valid4search.txt
+
+xml_cnn.py.bak
+
+data_1/
+
+cache/best_model.pkl
+cache/glove.pkl
+cache/fasttext.pkl
+
+.vector_cache
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

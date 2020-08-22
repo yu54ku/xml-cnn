@@ -1,0 +1,3 @@
+17770	M14 M142 MCAT	hoge fuga piyo hogera
+6572	GCAT	hoge fuga piyo hogera
+25286	M12 MCAT	hoge fuga piyo hogera
