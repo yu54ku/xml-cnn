@@ -5,10 +5,7 @@ import shutil
 
 import numpy as np
 import torch
-from gensim import downloader as api
-from gensim.models.fasttext import load_facebook_vectors
-from gensim.test.utils import datapath
-from torch import from_numpy, optim
+from torch import optim
 from torch.optim.lr_scheduler import MultiStepLR
 from torchtext import data
 from torchtext.vocab import GloVe

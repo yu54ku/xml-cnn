@@ -9,7 +9,6 @@ PyTorchを用いた [Deep Learning for Extreme Multi-label Text Classification](
 - Python: 3.6.10 以上
 - PyTorch: 1.6.0 以上
 - torchtext: 0.6.0 以上
-- Gensim: 3.8.0 以上
 - Optuna: 2.0.0 以上
 
 `./requirements.yml` を用いることで，動作確認済みの仮想環境をAnacondaで作成することが出来ます．

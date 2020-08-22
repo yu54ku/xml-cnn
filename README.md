@@ -9,7 +9,6 @@ Implementation of [Deep Learning for Extreme Multi-label Text Classification](ht
 - Python: 3.6.10 or higher
 - PyTorch: 1.6.0 or higher
 - torchtext: 0.6.0 or higher
-- Gensim: 3.8.0 or higher
 - Optuna: 2.0.0 or higher
 
 You can create a virtual environment of Anaconda from `requirements.yml`.
