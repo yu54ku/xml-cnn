@@ -1,7 +1,7 @@
 [日本語](https://github.com/yu54ku/xml-cnn/blob/master/README_J.md)
 
 # XML-CNN
-Implementation of [Deep Learning for Extreme Multi-label Text Classification](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf) using Pytorch.
+Implementation of [Deep Learning for Extreme Multi-label Text Classification](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf) using PyTorch.
 
 # System Requirements
 - Python: 3.6.10 or higher
@@ -27,6 +27,9 @@ It's stored in the order of ID, label, and text, separated by TAB from the left 
 {id}<TAB>{labels}<TAB>{texts}
 ```
 
+You can get the pre-processed RCV1 dataset from Lewis et al. by using this program's bundled `data/get_rcv1.py`.
+
+
 # Dynamic Max Pooling
 This program implements Dynamic Max Pooling based on the method by [Liu et al](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf).
 
@@ -41,6 +44,30 @@ Precision@K and F1-Score are available for this program.
 You can change it from `./params.yml`.
 
 # How to run
+## When first run
+### Donwload RCV1
+
+Donwload datasets from http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm
+
+```
+$ cd data
+$ python get_rcv1.py
+```
+> Lewis, D. D.; Yang, Y.; Rose, T.; and Li, F. RCV1: A New Benchmark Collection for Text Categorization Research. Journal of Machine Learning Research, 5:361-397, 2004. http://www.jmlr.org/papers/volume5/lewis04a/lewis04a.pdf. 
+
+
+### Make valid dataset
+
+```
+$ python make_valid.py train_org.txt
+```
+
+### Run
+
+```
+$ python train.py
+```
+
 ## Normal Training
 
 ```
@@ -55,7 +82,7 @@ or
 ```
 $ python train.py -s
 ```
-## Forced use of CPU
+## Force to use cpu
 
 ```
 $ python train.py --use_cpu
