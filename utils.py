@@ -87,7 +87,6 @@ def validating_testing(params, model, data_loader, is_valid=True):
                         eval_batch = f1_score(target, outputs, average=avg)
                     else:
                         k = int(measure[-1])
-                        # eval_batch = np.mean(precision(outputs, target, k))
                         eval_batch = precision_k(target, outputs, k)
                     print_num_on_tqdm(loader, eval_batch, measure)
                 else:
@@ -96,7 +95,6 @@ def validating_testing(params, model, data_loader, is_valid=True):
                         eval_epoch = f1_score(target_all, eval_all, average=avg)
                     else:
                         k = int(measure[-1])
-                        # eval_epoch = np.mean(precision(eval_all, target_all, k))
                         eval_epoch = precision_k(target_all, eval_all, k)
                     print_num_on_tqdm(loader, eval_epoch, measure, True)
 

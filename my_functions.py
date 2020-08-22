@@ -21,7 +21,6 @@ def tqdm_with_num(loader, total):
 
 
 def print_num_on_tqdm(loader, num, measure=None, last=False):
-    # num = num.item()
     out_str = last and "Epoch" or "Batch"
 
     if measure is None:
@@ -44,7 +43,7 @@ def print_num_on_tqdm(loader, num, measure=None, last=False):
 def out_size(l_in, kernel_size, channels, padding=0, dilation=1, stride=1):
     a = l_in + 2 * padding - dilation * (kernel_size - 1) - 1
     b = int(a / stride)
-    return (b + 1)*channels
+    return (b + 1) * channels
 
 
 def precision_k(true_mat, score_mat, k):
@@ -58,16 +57,3 @@ def precision_k(true_mat, score_mat, k):
     num = np.sum(mat, axis=1)
     p = np.mean(num / k).item()
     return p
-
-
-# def precision_k(target, outputs, k=1):
-#     assert target.shape == outputs.shape
-#     data = np.array([target, outputs])
-#     data = np.reshape(data, (2, 1, target.shape[0])) if len(target.shape) == 1 else data
-#     data = np.transpose(data, (1, 2, 0))
-#     for i, j in enumerate(data):
-#         data[i] = j[j[:, 1].argsort()[::-1], :]
-#     data = np.transpose(data, (2, 0, 1))
-#     data = data[:, :, :k]
-#     return np.mean(data[0])
-#     # return average_precision_score(data[0], data[1])
