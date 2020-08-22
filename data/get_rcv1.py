@@ -1,51 +1,63 @@
+# RCV1 Downloader (There's no guarantee that this program will work.)
+
 import os
 import subprocess
-import sys
 
 import numpy as np
+import requests
 from sklearn.datasets import fetch_rcv1
 from tqdm import tqdm
 
 
-def get_num_of_line(path):
-    if path is None:
-        return None
-    else:
-        cmd = ["wc", "-l", path]
-        output = subprocess.run(cmd, stdout=subprocess.PIPE).stdout
-        return int(output.decode("utf8").split(" ")[0])
-
-
-files = [
-    "lyrl2004_tokens_train.dat",
-    "lyrl2004_tokens_test_pt0.dat",
-    "lyrl2004_tokens_test_pt1.dat",
-    "lyrl2004_tokens_test_pt2.dat",
-    "lyrl2004_tokens_test_pt3.dat",
-]
+def get_num_of_doc(path):
+    cmd = "cat " + path + " | grep .W | wc -l "
+    output = subprocess.run(cmd, stdout=subprocess.PIPE, shell=True).stdout
+    return int(output.decode("utf8").split(" ")[0])
 
 
 url = "http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/a12-token-files/"
 
-for filename in files:
-    cmd = ["wget", url + filename + ".gz"]
-    subprocess.run(cmd, stdout=subprocess.PIPE)
+files = [
+    ("lyrl2004_tokens_train.dat", 5108963),
+    ("lyrl2004_tokens_test_pt0.dat", 44734992),
+    ("lyrl2004_tokens_test_pt1.dat", 45595102),
+    ("lyrl2004_tokens_test_pt2.dat", 44507510),
+    ("lyrl2004_tokens_test_pt3.dat", 42052117),
+]
+
+print("This program downloads files from '" + url[:-1] + "'.")
+
+print("\nLoad RCV1 labels from sklearn (a few minutes)...  ", end="", flush=True)
+rcv1 = fetch_rcv1()
+sample_id = rcv1.sample_id
+target_names = rcv1.target_names.tolist()
+target = rcv1.target
+print("Done.\n", flush=True)
+
+
+for filename, filesize in files:
+    with open(filename + ".gz", "wb") as file:
+        pbar = tqdm(total=filesize, unit="B", unit_scale=True)
+        pbar.set_description("Downloading " + filename[16:] + ".gz")
+        for chunk in requests.get(url + filename + ".gz", stream=True).iter_content(
+            chunk_size=1024
+        ):
+            ff = file.write(chunk)
+            pbar.update(len(chunk))
+        pbar.close()
 
     cmd = ["gzip", "-d", filename + ".gz"]
     subprocess.run(cmd, stdout=subprocess.PIPE)
 
-    rcv1 = fetch_rcv1()
-    sample_id = rcv1.sample_id
-    target_names = rcv1.target_names.tolist()
-    target = rcv1.target
-
-    num_of_line = get_num_of_line(filename)
+    num_of_doc = get_num_of_doc(filename)
 
     with open(filename) as f:
         flag = False
         buf = []
         doc_id = []
-        for i in tqdm(f, total=num_of_line):
+        datafile = tqdm(f, total=num_of_doc, unit="Docs")
+        datafile.set_description("Processing " + filename[16:])
+        for i in f:
             if (".I" in i) and (not flag):
                 doc_id.append(i.replace(".I ", "")[:-1])
                 flag = True
@@ -63,6 +75,7 @@ for filename in files:
                 with open(filename + ".out", "a") as f_output:
                     f_output.write(output)
                     buf = []
+                datafile.update()
             else:
                 buf.append(i)
         else:
@@ -79,9 +92,12 @@ for filename in files:
                 f_output.write(output)
                 buf = []
 
+            datafile.update()
+
+    datafile.close()
     os.remove(filename)
 
-files = [i + ".out" for i in files]
+files = [i[0] + ".out" for i in files]
 
 cmd = ["mv", files[0], "train_org.txt"]
 subprocess.run(cmd, stdout=subprocess.PIPE)
