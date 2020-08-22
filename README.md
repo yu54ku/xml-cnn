@@ -3,6 +3,8 @@
 # XML-CNN
 Implementation of [Deep Learning for Extreme Multi-label Text Classification](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf) using PyTorch.
 
+> Liu, J., Chang, W.-C., Wu, Y. and Yang, Y.: Deep learning fo extreme multi-label text classification, in Proc. of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval, pp. 115 - 124 (2017).
+
 # System Requirements
 - Python: 3.6.10 or higher
 - PyTorch: 1.6.0 or higher
@@ -20,34 +22,36 @@ $ conda env create -f requirements.yml
 # Datasets
 The dataset must be in the same format as it attached to this program.
 
-It contains one document per line.
+It contains one document per line.  
 It's stored in the order of ID, label, and text, separated by TAB from the left side.
 
 ```
 {id}<TAB>{labels}<TAB>{texts}
 ```
 
-You can get the pre-processed RCV1 dataset from Lewis et al. by using this program's bundled `data/get_rcv1.py`.
+You can get the tokenized RCV1 dataset from [Lewis et al](https://www.jmlr.org/papers/volume5/lewis04a/lewis04a.pdf). by using this program's bundled `data/get_rcv1.py`.  
+__Caution: This dataset is tokenized differently than the one used by Liu et al.__
+
+> Lewis, D. D.; Yang, Y.; Rose, T.; and Li, F. RCV1: A New Benchmark Collection for Text Categorization Research. Journal of Machine Learning Research, 5:361-397, 2004. http://www.jmlr.org/papers/volume5/lewis04a/lewis04a.pdf. 
 
 
 # Dynamic Max Pooling
 This program implements Dynamic Max Pooling based on the method by [Liu et al](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf).
 
-The p shown in that paper becomes the `"d_max_pool_p"` in `./params.yml`.
-
+The p shown in that paper becomes the `"d_max_pool_p"` in `./params.yml`.  
 As in the paper, `"d_max_pool_p"` must be a divisible number for the output vector after convolution.
 
 
 # Evaluation Metrics
-Precision@K and F1-Score are available for this program.
-
+Precision@K and F1-Score are available for this program.  
 You can change it from `./params.yml`.
 
 # How to run
 ## When first run
 ### Donwload RCV1
 
-Donwload datasets from http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm
+Donwload datasets from http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm .  
+__Caution: This dataset is tokenized differently than the one used by Liu et al.__
 
 ```
 $ cd data
