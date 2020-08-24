@@ -27,14 +27,17 @@ $ conda env create -f requirements.yml
 ```
 {id}<TAB>{labels}<TAB>{texts}
 ```
+このプログラムに含まれる `data/get_rcv1.py` を用いることで，[Lewisら](https://www.jmlr.org/papers/volume5/lewis04a/lewis04a.pdf) によって前処理された RCV1 データセットをダウンロードすることが出来ます．
+__注意: Liuらの手法で使用されているデータセットとは前処理が異なります.__
 
+> Lewis, D. D.; Yang, Y.; Rose, T.; and Li, F. RCV1: A New Benchmark Collection for Text Categorization Research. Journal of Machine Learning Research, 5:361-397, 2004. http://www.jmlr.org/papers/volume5/lewis04a/lewis04a.pdf. 
 
 # Dynamic Max Pooling
 このプログラムでは，[Liuらの手法](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf) を基にDynamic Max Poolingを実装しています．
 
-論文における p は `./params.yml` の `"d_max_pool_p"` となります．
+論文における p は `./params.yml` の `d_max_pool_p` となります．
 
-`"d_max_pool_p"` は論文と同様，畳み込み後の出力ベクトルに対して割り切れる数でなければなりません．手動でパラメータを設定する場合は注意してください．
+`d_max_pool_p` は論文と同様，畳み込み後の出力ベクトルに対して割り切れる数でなければなりません．手動でパラメータを設定する場合は注意してください．
 
 このプログラムのパラメータサーチでは，割り切れる数を列挙しその中からパラメータを選択しています．
 
@@ -46,6 +49,28 @@ $ conda env create -f requirements.yml
 # 実行方法
 このプログラムには `--params_search` と `--use_cpu` オプションがあります．
 
+## 初回実行時
+### RCV1のダウンロード
+
+http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm から前処理済みの RCV1 データセットをダウンロードします．
+__注意: Liuらの手法で使用されているデータセットとは前処理が異なります.__
+
+```
+$ cd data
+$ python get_rcv1.py
+```
+
+### 検証用データの生成
+
+```
+$ python make_valid.py train_org.txt
+```
+
+### 実行
+
+```
+$ python train.py
+```
 ## 通常の学習
 
 ```
