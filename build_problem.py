@@ -217,7 +217,6 @@ class BuildProblem:
 
         # モデル構築
         model = xml_cnn(params, self.TEXT.vocab.vectors)
-        model = model.cuda()
         model = model.to(params["device"])
         epochs = params["epochs"]
         learning_rate = params["learning_rate"]
