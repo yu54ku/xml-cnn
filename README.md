@@ -5,7 +5,7 @@ Implementation of [Deep Learning for Extreme Multi-label Text Classification](ht
 
 > Liu, J., Chang, W.-C., Wu, Y. and Yang, Y.: Deep learning fo extreme multi-label text classification, in Proc. of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval, pp. 115-124 (2017).
 
-# System Requirements
+# Requirements
 - Python: 3.6.10 or higher
 - PyTorch: 1.6.0 or higher
 - torchtext: 0.6.0 or higher
@@ -49,7 +49,7 @@ You can change it from `./params.yml`.
 ## When running at first
 ### Donwload RCV1
 
-Donwload datasets from http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm .  
+Donwload datasets from http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm.  
 __Caution: This dataset is tokenized differently than the one used by Liu et al.__
 
 ```
