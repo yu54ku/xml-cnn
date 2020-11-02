@@ -72,9 +72,7 @@ def main():
     print("-" * shutil.get_terminal_size().columns)
 
     # Set of automatically determined params
-    params = {}
-    params["device"] = use_device
-    params["params_search"] = is_ps
+    params = {"device": use_device, "params_search": is_ps}
 
     common["cache_path"] += common["cache_path"][-1] == "/" and "" or "/"
 
@@ -123,7 +121,7 @@ def main():
         params = convert_params(trial.params, params["sequence_length"])
 
         print("\n\n" + " Best Hyper Params ".center(term_size, "-"))
-        print([i for i in sorted(trial.params.items())])
+        print([i for i in sorted(params.items())])
         print("-" * shutil.get_terminal_size().columns)
 
 

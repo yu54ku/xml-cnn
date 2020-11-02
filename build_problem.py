@@ -1,14 +1,10 @@
 import math
-import os
-import pickle
 import shutil
 
-import numpy as np
 import torch
 from torch import optim
 from torch.optim.lr_scheduler import MultiStepLR
 from torchtext import data
-from torchtext.vocab import GloVe
 
 from my_functions import out_size
 from utils import training, validating_testing
