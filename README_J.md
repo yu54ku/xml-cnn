@@ -28,9 +28,12 @@ $ conda env create -f requirements.yml
 {id}<TAB>{labels}<TAB>{texts}
 ```
 このプログラムに含まれる `data/get_rcv1.py` を用いることで，[Lewisら](https://www.jmlr.org/papers/volume5/lewis04a/lewis04a.pdf) によって前処理された RCV1 データセットをダウンロードすることが出来ます．  
-__注意: Liuらの手法で使用されているデータセットとは前処理が異なります.__
+__注意: Liuらの手法で使用されているデータセットとは前処理が異なります.__  
+__注意: このデータセットを使用する際には，配布元の利用規約(Regal Issues)を参照してください．__
 
 > Lewis, D. D.; Yang, Y.; Rose, T.; and Li, F. RCV1: A New Benchmark Collection for Text Categorization Research. Journal of Machine Learning Research, 5:361-397, 2004. http://www.jmlr.org/papers/volume5/lewis04a/lewis04a.pdf. 
+
+> Lewis, D. D. RCV1-v2/LYRL2004: The LYRL2004 Distribution of the RCV1-v2 Text Categorization Test Collection (12-Apr-2004 Version). http://www.jmlr.org/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm.
 
 # Dynamic Max Pooling
 このプログラムでは，[Liuらの手法](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf) を基にDynamic Max Poolingを実装しています．
@@ -50,7 +53,8 @@ __注意: Liuらの手法で使用されているデータセットとは前処�
 ### RCV1のダウンロード
 
 http://www.ai.mit.edu/projects/jmlr/papers/volume5/lewis04a/lyrl2004_rcv1v2_README.htm から前処理済みの RCV1 データセットをダウンロードします．  
-__注意: Liuらの手法で使用されているデータセットとは前処理が異なります.__
+__注意: Liuらの手法で使用されているデータセットとは前処理が異なります.__  
+__注意: このデータセットを使用する際には，配布元の利用規約(Regal Issues)を参照してください．__
 
 ```
 $ cd data
