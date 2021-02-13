@@ -11,8 +11,8 @@ Implementation of [Deep Learning for Extreme Multi-label Text Classification](ht
 - torchtext: 0.6.0 or higher
 - Optuna: 2.0.0 or higher
 
-You can create a virtual environment of Anaconda from `requirements.yml`.
-We can't guarantee the operation of Anaconda environment other than the one created with requirements.yml.
+You can create a virtual environment of Anaconda from `requirements.yml`.  
+We can't guarantee the operation of Anaconda environment other than the one created with `requirements.yml`.
 
 ```
 $ conda env create -f requirements.yml
