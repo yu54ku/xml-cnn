@@ -11,7 +11,8 @@ PyTorchを用いた [Deep Learning for Extreme Multi-label Text Classification](
 - torchtext: 0.6.0 以上
 - Optuna: 2.0.0 以上
 
-`./requirements.yml` を用いることで，動作確認済みの仮想環境をAnacondaで作成することが出来ます．
+`./requirements.yml` を用いることで，動作確認済みの仮想環境をAnacondaで作成することが出来ます．  
+`requirements.yml` を用いて作成されたAnaconda環境以外での動作は保証出来ません．
 
 ```
 $ conda env create -f requirements.yml
