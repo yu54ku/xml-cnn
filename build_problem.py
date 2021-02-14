@@ -230,7 +230,7 @@ class BuildProblem:
         measure = params["measure"]
         measure = "f1" in measure and measure[:-3] or measure
         if not is_ps:
-            save_best_model_path = params["cache_path"] + "best_model.pkl"
+            save_best_model_path = params["model_cache_path"] + "best_model.pkl"
         # 学習
         for epoch in range(1, epochs + 1):
             if self.params["params_search"]:

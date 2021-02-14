@@ -6,14 +6,7 @@ data/test.txt
 data/train4search.txt
 data/valid4search.txt
 
-xml_cnn.py.bak
-
-data_1/
-
-cache/best_model.pkl
-cache/glove.pkl
-cache/fasttext.pkl
-
+.model_cache/best_model.pkl
 .vector_cache
 
 # Byte-compiled / optimized / DLL files

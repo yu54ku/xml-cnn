@@ -69,6 +69,14 @@ $ python get_rcv1.py
 $ python make_valid.py train_org.txt
 ```
 
+
+### Make dataset for Params Search
+
+```
+$ python make4search.py train_org.txt
+```
+
+
 ### Run
 
 ```

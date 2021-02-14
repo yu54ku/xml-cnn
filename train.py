@@ -74,7 +74,7 @@ def main():
     # Set of automatically determined params
     params = {"device": use_device, "params_search": is_ps}
 
-    common["cache_path"] += common["cache_path"][-1] == "/" and "" or "/"
+    common["model_cache_path"] += common["model_cache_path"][-1] == "/" and "" or "/"
 
     if is_ps:
         num_of_line_train = get_num_of_line(params_search["train_data_path"])

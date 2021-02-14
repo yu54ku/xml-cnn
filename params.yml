@@ -14,7 +14,7 @@ params_search:
 
 common:
     batch_size: 64
-    cache_path: cache
+    model_cache_path: .model_cache
     measure: p@1 # micro-f1, macro-f1, p@1, p@3 or p@5
     sequence_length: 500
 
