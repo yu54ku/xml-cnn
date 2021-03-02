@@ -6,13 +6,13 @@ from sklearn.metrics import average_precision_score
 from tqdm import tqdm
 
 
-def get_num_of_line(path):
-    if path is None:
-        return None
-    else:
-        cmd = ["wc", "-l", path]
-        output = subprocess.run(cmd, stdout=subprocess.PIPE).stdout
-        return int(output.decode("utf8").split(" ")[0])
+# def get_num_of_line(path):
+#     if path is None:
+#         return None
+#     else:
+#         cmd = ["wc", "-l", path]
+#         output = subprocess.run(cmd, stdout=subprocess.PIPE).stdout
+#         return int(output.decode("utf8").split(" ")[0])
 
 
 def tqdm_with_num(loader, total):

@@ -199,16 +199,16 @@ class BuildProblem:
 
         # バッチサイズの計算
         params["train_batch_total"] = math.ceil(
-            params["num_of_line_train"] / params["batch_size"]
+            len(self.train) / params["batch_size"]
         )
 
         params["valid_batch_total"] = math.ceil(
-            params["num_of_line_valid"] / params["batch_size"]
+            len(self.valid) / params["batch_size"]
         )
 
         if not is_ps:
             params["test_batch_total"] = math.ceil(
-                params["num_of_line_test"] / params["batch_size"]
+                len(self.test) / params["batch_size"]
             )
 
         # モデル構築

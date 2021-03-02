@@ -6,7 +6,7 @@ import torch
 import yaml
 
 from build_problem import BuildProblem
-from my_functions import get_num_of_line, out_size
+from my_functions import out_size
 
 
 def convert_params(params, length):
@@ -77,11 +77,6 @@ def main():
     common["model_cache_path"] += common["model_cache_path"][-1] == "/" and "" or "/"
 
     if is_ps:
-        num_of_line_train = get_num_of_line(params_search["train_data_path"])
-        params["num_of_line_train"] = num_of_line_train
-        num_of_line_valid = get_num_of_line(params_search["valid_data_path"])
-        params["num_of_line_valid"] = num_of_line_valid
-
         params["test_data_path"] = None
         params.update(common)
         params.update(params_search)
@@ -91,12 +86,6 @@ def main():
         print([i for i in sorted(hyper_params.items())])
         print("-" * shutil.get_terminal_size().columns)
 
-        num_of_line_train = get_num_of_line(normal_train["train_data_path"])
-        params["num_of_line_train"] = num_of_line_train
-        num_of_line_valid = get_num_of_line(normal_train["valid_data_path"])
-        params["num_of_line_valid"] = num_of_line_valid
-        num_of_line_test = get_num_of_line(normal_train["test_data_path"])
-        params["num_of_line_test"] = num_of_line_test
         params.update(common)
         params.update(hyper_params)
         params.update(normal_train)
