@@ -19,6 +19,7 @@ common:
     sequence_length: 500
 
 hyper_params:
+    # These params are examples
     d_max_pool_p: [125, 128, 128]
     filter_channels: 128
     filter_sizes: [2, 4, 8]

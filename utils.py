@@ -34,7 +34,7 @@ def training(params, model, train_loader, optimizer):
             optimizer.step()
             # -----------------------------------------------------------
 
-            # For tqdm
+            # Print training progress
             losses.append(loss.item())
 
             if idx < batch_total - 1:
@@ -73,7 +73,7 @@ def validating_testing(params, model, data_loader, is_valid=True):
                 outputs = torch.sigmoid(outputs)
                 # -----------------------------------------------------------
 
-                # For tqdm
+                # Print some progress
                 outputs = outputs.to("cpu").detach().numpy().copy()
                 if "f1" in measure:
                     outputs = outputs >= 0.5

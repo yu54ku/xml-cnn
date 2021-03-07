@@ -8,7 +8,7 @@ import yaml
 from build_problem import BuildProblem
 from my_functions import out_size
 
-
+# Convert params from Optuna
 def convert_params(params, length):
     params["hidden_dims"] = 2 ** params["hidden_dims"]
     params["filter_channels"] = 2 ** params["filter_channels"]

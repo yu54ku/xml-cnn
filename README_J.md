@@ -105,5 +105,5 @@ $ python train.py --use_cpu
 このプログラムは以下のリポジトリを基にしています．彼らの成果に感謝します.
 
 
-- [siddsax/XML-CNN](https://github.com/siddsax/XML-CNN) (MIT license)
+- [siddsax/XML-CNN](https://github.com/siddsax/XML-CNN) (MIT License)
 - [PaulAlbert31/LabelNoiseCorrection](https://github.com/PaulAlbert31/LabelNoiseCorrection) (MIT License)

@@ -1,3 +1,4 @@
+# There's no guarantee that this program will work.
 import random
 import sys
 

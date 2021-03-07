@@ -108,5 +108,5 @@ This program is based on the following repositories.
 Thank you very much for their accomplishments.
 
 
-- [siddsax/XML-CNN](https://github.com/siddsax/XML-CNN) (MIT license)
+- [siddsax/XML-CNN](https://github.com/siddsax/XML-CNN) (MIT License)
 - [PaulAlbert31/LabelNoiseCorrection](https://github.com/PaulAlbert31/LabelNoiseCorrection) (MIT License)

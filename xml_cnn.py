@@ -17,10 +17,8 @@ class xml_cnn(nn.Module):
         sequence_length = params["sequence_length"]
         filter_channels = params["filter_channels"]
         d_max_pool_p = params["d_max_pool_p"]
-
         self.filter_sizes = params["filter_sizes"]
 
-        # 層の定義
         self.lookup = nn.Embedding.from_pretrained(embedding_weights, freeze=False)
 
         self.conv_layers = nn.ModuleList()
@@ -34,6 +32,7 @@ class xml_cnn(nn.Module):
             conv_n = nn.Conv2d(
                 1, filter_channels, (fsz, emb_dim), stride=(ssz, emb_dim)
             )
+            # Initialize with He's method
             torch.nn.init.kaiming_normal_(conv_n.weight)
 
             # Dynamic Max-Pooling
@@ -50,12 +49,12 @@ class xml_cnn(nn.Module):
         self.l1 = nn.Linear(fin_l_out_size, params["hidden_dims"])
         self.l2 = nn.Linear(hidden_dims, params["num_of_class"])
 
-        # Heの初期値でWeightsを初期化
+        # Initialize with He's method
         torch.nn.init.kaiming_normal_(self.l1.weight)
         torch.nn.init.kaiming_normal_(self.l2.weight)
 
     def forward(self, x):
-        # Embedding層
+        # Embedding layer
         h_non_static = self.lookup.forward(x.permute(1, 0))
         h_non_static = h_non_static.reshape(
             h_non_static.shape[0], 1, h_non_static.shape[1], h_non_static.shape[2]
@@ -64,7 +63,7 @@ class xml_cnn(nn.Module):
 
         h_list = []
 
-        # Conv, Pooling層
+        # Conv, Pooling layers
         for i in range(len(self.filter_sizes)):
             h_n = self.conv_layers[i](h_non_static)
             h_n = h_n.view(h_n.shape[0], 1, h_n.shape[1] * h_n.shape[2])
@@ -79,10 +78,10 @@ class xml_cnn(nn.Module):
         else:
             h = h_list[0]
 
-        # Full Connected
+        # Full connected layer
         h = F.relu(self.l1(h))
         h = self.dropout_1(h)
 
-        # Output層
+        # Output layer
         y = self.l2(h)
         return y
