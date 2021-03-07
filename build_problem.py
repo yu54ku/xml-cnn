@@ -10,23 +10,22 @@ from my_functions import out_size
 from utils import training, validating_testing
 from xml_cnn import xml_cnn
 
-# パラメータ探索時のハイパーパラメータ
 
-
+# Hyper Params used in Params Search
 def get_hyper_params(trial, length):
     suggest_int = trial.suggest_int
     suggest_uni = trial.suggest_uniform
 
-    # num_filter_sizes: フィルタをいくつ定義するか
-    # filter_sizes: 畳み込みフィルタのサイズ
+    # num_filter_sizes: Num of filter sizes
+    # filter_sizes: Size of Conv filters
 
-    # weight_decay: 荷重減衰
-    # hidden_dims: 全結合層の隠れ層
-    # filter_channels: 畳み込みフィルタのチャンネル数
-    # learning_rate: 学習率
-    # stride: 畳み込みフィルタのストライド幅
+    # weight_decay: Weight decay for Optimizer
+    # hidden_dims: Num of dims of the hidden layer
+    # filter_channels: Num of convolution filter channels
+    # learning_rate: Learning rate of Optimizer
+    # stride: Stride width of Conv filter
 
-    # d_max_list: Dynamic Max-Poolingにおける "p"
+    # d_max_list(d_max_pool_p): "p" in Dynamic Max-Pooling
 
     num_filter_sizes = suggest_int("num_filter_sizes", 3, 4)
     enumerate_f = range(num_filter_sizes)
@@ -39,8 +38,8 @@ def get_hyper_params(trial, length):
     enumerate_f = enumerate(filter_sizes)
     stride = [suggest_int("stride_" + str(i), 1, j) for i, j in enumerate_f]
 
-    # Dynamic Max-Poolingのパラメータ(p)を割り切れる数字に変換
-    # Optunaの仕様上，線形，logの増加率を持つパラメータしか設定できないため
+    # Convert "p" to divisible nums
+    # Due to Optuna's specification, only parameters with a linear, logarithmic rate of increase can be set
     args_list = zip(filter_sizes, stride)
     out_sizes = [out_size(length, i, filter_channels, stride=j) for i, j in args_list]
     d_max_list = []
@@ -73,7 +72,7 @@ def early_stopping(num_of_unchanged, trigger):
     return False
 
 
-# データセット読み込み時の処理
+# Convert labels to vectors
 class MakeLabelVector:
     def __init__(self):
         self.uniq_of_cat = []
@@ -113,7 +112,7 @@ class BuildProblem:
         set_label_vector = process.set_label_vector
         get_label_vector = process.get_label_vector
 
-        # フィールドの定義
+        # Define fields for torchtext
         length = self.params["sequence_length"]
         self.ID = data.RawField(is_target=False)
         self.LABEL = data.RawField(set_label_vector, get_label_vector, True)
@@ -141,7 +140,7 @@ class BuildProblem:
 
         print("Done.", flush=True)
 
-        # 単語のID(通し番号)化
+        # Convert words to ID
         print("Converting text to ID...  ", end="", flush=True)
         if self.params["params_search"]:
             self.TEXT.build_vocab(self.train, self.valid)
@@ -151,7 +150,7 @@ class BuildProblem:
         self.TEXT.vocab.load_vectors("glove.6B.300d")
         print("Done.\n", flush=True)
 
-        # 定義していないパラメータの追加
+        # Add parameters that havn't yet been defined
         self.params["uniq_of_cat"] = process.uniq_of_cat
         self.params["num_of_class"] = len(process.uniq_of_cat)
 
@@ -172,7 +171,7 @@ class BuildProblem:
             print([i for i in sorted(hyper_params.items())])
             print("-" * shutil.get_terminal_size().columns + "\n")
 
-        # バッチジェネレータの生成
+        # Generate Batch Iterators
         train_loader = data.Iterator(
             self.train,
             batch_size=params["batch_size"],
@@ -197,7 +196,7 @@ class BuildProblem:
                 sort=False,
             )
 
-        # バッチサイズの計算
+        # Calc Batch Size
         params["train_batch_total"] = math.ceil(
             len(self.train) / params["batch_size"]
         )
@@ -211,13 +210,13 @@ class BuildProblem:
                 len(self.test) / params["batch_size"]
             )
 
-        # モデル構築
+        # Define xml-cnn model
         model = xml_cnn(params, self.TEXT.vocab.vectors)
         model = model.to(params["device"])
         epochs = params["epochs"]
         learning_rate = params["learning_rate"]
 
-        # Optimizerの定義
+        # Define Optimizer
         optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
         if not is_ps:

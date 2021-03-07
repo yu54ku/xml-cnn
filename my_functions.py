@@ -30,7 +30,7 @@ def print_num_on_tqdm(loader, num, measure=None, last=False):
         loader.set_postfix_str(out_str)
 
 
-# 畳み込み後のTensorのサイズを計算
+# Calculate the size of the Tensor after convolution
 def out_size(l_in, kernel_size, channels, padding=0, dilation=1, stride=1):
     a = l_in + 2 * padding - dilation * (kernel_size - 1) - 1
     b = int(a / stride)
