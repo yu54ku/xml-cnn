@@ -7,8 +7,11 @@ import yaml
 
 from build_problem import BuildProblem
 from my_functions import out_size
+import warnings
+warnings.filterwarnings("ignore")
+torch.cuda.empty_cache()
+torch.backends.cudnn.benchmark = False
 
-# Convert params from Optuna
 def convert_params(params, length):
     params["hidden_dims"] = 2 ** params["hidden_dims"]
     params["filter_channels"] = 2 ** params["filter_channels"]
@@ -39,25 +42,31 @@ def convert_params(params, length):
 
 
 def main():
-    # Config of Args
     parser = ArgumentParser()
     message = "Enable params search."
     action = "store_true"
     parser.add_argument("-s", "--params_search", help=message, action=action)
     message = "Use CPU."
     parser.add_argument("--use_cpu", help=message, action=action)
+    message = "Enable Adversarial Training."
+    parser.add_argument("-adv", "--adversarial_training", help=message, action=action, default=False)
+    message = "only do training."
+    parser.add_argument("-t", "--train_only", help=message, action=action, default=False)
+    message = "only do testing."
+    parser.add_argument("-te", "--test_only", help=message, action=action, default=False)
+    message = "use provided model name."
+    parser.add_argument("-m", "--model_name", help=message, type=str, default=None)
     args = parser.parse_args()
     is_ps = args.params_search
     use_cpu = args.use_cpu
+    use_adv = args.adversarial_training
     use_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     use_device = use_cpu and torch.device("cpu") or use_device
     term_size = shutil.get_terminal_size().columns
 
-    # Show learning mode
     out_str = is_ps and " Params Search Mode " or " Normal Train Mode "
     print(out_str.center(term_size, "="))
 
-    # Load Params
     with open("params.yml") as f:
         params = yaml.safe_load(f)
 
@@ -66,12 +75,36 @@ def main():
     normal_train = params["normal_train"]
     params_search = params["params_search"]
 
-    # Show Common Params
+    if use_adv:
+        common["use_adversarial_training"] = True
+        common["bit_depth"] = 8
+        common["evaluate_adversarial"] = True
+
+    if args.model_name:
+        common["model_name"] = args.model_name
+
+    if args.train_only:
+        common["only_train"] = True
+    
+    if args.test_only:
+        common["only_test"] = True
+
+    if args.model_name == "rcv1":
+        common["vector_cache"] = ".vector_cache/glove.6B.300d.txt"
+        common["epsilon"] = 0.1 
+    if args.model_name == "eurlex":
+        common["vector_cache"] = ".vector_cache/bow_embeddings.txt"
+        common["epsilon"] = 0.01
+
+    if args.model_name == "eurlex":
+        normal_train["train_data_path"] = "eurlex_data/train.txt"
+        normal_train["test_data_path"] = "eurlex_data/test.txt"
+        normal_train["valid_data_path"] = "eurlex_data/valid.txt"
+        
     print("\n" + " Params ".center(term_size, "-"))
     print([i for i in sorted(common.items())])
     print("-" * shutil.get_terminal_size().columns)
 
-    # Set of automatically determined params
     params = {"device": use_device, "params_search": is_ps}
 
     common["model_cache_path"] += common["model_cache_path"][-1] == "/" and "" or "/"
@@ -90,20 +123,18 @@ def main():
         params.update(hyper_params)
         params.update(normal_train)
 
-    # Build Problem
     trainer = BuildProblem(params)
     trainer.preprocess()
 
-    # Run Training
     is_ps or trainer.run()
 
-    # For Optuna
+    trainer.explainability_data()
+    trainer.run_explainability()
+
     if is_ps:
-        # Config of Optuna
         optuna.logging.disable_default_handler()
         study = optuna.create_study()
 
-        # Params Search
         study.optimize(trainer.run, n_trials=params["trials"])
 
         trial = study.best_trial

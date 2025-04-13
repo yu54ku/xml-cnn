@@ -4,8 +4,31 @@ data/valid.txt
 data/test.txt
 data/train4search.txt
 data/valid4search.txt
+data/rcv1_raw_small.p
+data/rcv1-v2.labels.gz
+data/test.txt.bak
+data/valid.txt.bak
+data/train.txt.bak
+data/rcv1-v2.topics.qrels
+data/lyrl2004_tokens_train.dat
+data/lyrl2004_tokens_test_pt0.dat
+data/lyrl2004_tokens_test_pt1.dat
+data/lyrl2004_tokens_test_pt2.dat
+data/lyrl2004_tokens_test_pt3.dat
 
+eurlex_data/eurlex_test.txt
+eurlex_data/eurlex_train.txt
+eurlex_data/train_org.txt
+eurlex_data/test.txt
+eurlex_data/valid.txt
+eurlex_data/train.txt
+
+results/rcv1_results.txt
+results/eurlex_results.txt
+
+.model_cache/
 .model_cache/best_model.pkl
+.model_cache/best_model_eurlex.pkl
 .vector_cache
 
 # Byte-compiled / optimized / DLL files
@@ -70,6 +93,7 @@ coverage.xml
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
+logs/
 
 # Flask stuff:
 instance/
@@ -119,6 +143,8 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.xml
+xml/
 
 # Spyder project settings
 .spyderproject

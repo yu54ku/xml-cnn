@@ -14,9 +14,25 @@ params_search:
 
 common:
     batch_size: 64
-    model_cache_path: .model_cache
+    model_cache_path: .model_cache/
     measure: p@1 # micro-f1, macro-f1, p@1, p@3 or p@5
     sequence_length: 500
+    vector_cache: ".vector_cache/glove.6B.300d.txt"
+    # vector_cache: ".vector_cache/bow_embeddings.txt"
+    # Execution control flags
+    only_train: False
+    only_test: False
+    # Logging configuration
+    enable_logging: True
+    log_dir: "logs"
+    # model_name is optional - will use timestamp if not provided
+    model_name: "rcv1"
+    # Adversarial training parameters
+    use_adversarial_training: False
+    fgsm_epsilon: 0.1
+    bit_depth: 8  # For feature squeezing
+    # Evaluation against adversarial attacks
+    evaluate_adversarial: False
 
 hyper_params:
     # These params are examples
