@@ -41,8 +41,15 @@ __Caution: If you want to use this dataset, please read the terms of use (Legal 
 # Dynamic Max Pooling
 This program implements Dynamic Max Pooling based on the method by [Liu et al](http://nyc.lti.cs.cmu.edu/yiming/Publications/jliu-sigir17.pdf).
 
-The p shown in that paper becomes the `d_max_pool_p` in `./params.yml`.  
-As in the paper, `d_max_pool_p` must be a divisible number for the output vector after convolution.
+## Known issue: difference from the paper
+In the paper (Section 3.1), the feature map of **each filter** is divided into p chunks, so the pooling layer outputs `filter_channels × p` features for each filter size.
+In this implementation, the feature maps of all filters are concatenated into one sequence before pooling, so `d_max_pool_p` is the **total number of chunks across all filters** of each filter size, not the paper's p.
+
+- Setting `d_max_pool_p = filter_channels × p` (where the length of the convolution output is divisible by p) gives exactly the same pooling as the paper.
+- Other values, including the defaults in `./params.yml`, create pooling windows that span multiple filters. This is not described in the paper. With the defaults, filter sizes 4 and 8 behave like standard max-over-time pooling (p = 1).
+- The parameter search also chooses from divisors of `filter_channels × (length of the convolution output)`, so most candidates differ from the paper's pooling.
+
+A fix is planned. Please keep this in mind when comparing results with the paper.
 
 
 # Evaluation Metrics
