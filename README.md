@@ -49,7 +49,9 @@ In this implementation, the feature maps of all filters are concatenated into on
 - Other values, including the defaults in `./params.yml`, create pooling windows that span multiple filters. This is not described in the paper. With the defaults, filter sizes 4 and 8 behave like standard max-over-time pooling (p = 1).
 - The parameter search also chooses from divisors of `filter_channels × (length of the convolution output)`, so most candidates differ from the paper's pooling.
 
-A fix is planned. Please keep this in mind when comparing results with the paper.
+I intend to fix this issue, but I cannot promise when.
+Until then, if you need an implementation that follows the paper, please consider
+[LibMultiLabel](https://github.com/ASUS-AICS/LibMultiLabel).
 
 
 # Evaluation Metrics
